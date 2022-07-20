@@ -4,7 +4,7 @@ import { selectExtras, setEmojis } from "../features/reduces/extras";
 import * as services from "../api/services";
 
 const useExtraResources = () => {
-	const { emojis, gifs } = useSelector(selectExtras);
+	const { emojis } = useSelector(selectExtras);
 	const dispatch = useDispatch();
 
 	const fetchEmojis = async () => {

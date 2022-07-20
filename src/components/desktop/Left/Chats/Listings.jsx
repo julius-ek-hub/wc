@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import List from "@mui/material/List";
 import ChatMakeUp from "./ChatMakeUp";
 
 import useChats from "../../../../hooks/useChats";
 import useSettings from "../../../../hooks/useSettings";
-import useConnection from "../../../../hooks/useConnection";
 import useMessages from "../../../../hooks/useMessages";
 
 function Listings() {

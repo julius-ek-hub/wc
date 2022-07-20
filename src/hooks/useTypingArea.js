@@ -15,7 +15,7 @@ function useTypingArea() {
 	});
 
 	const { replyingTo, setReplyIngTo, sendMessage } = useMessages();
-	const { active, realActive } = useChats();
+	const { realActive } = useChats();
 
 	const textAreaREf = useRef();
 	const {

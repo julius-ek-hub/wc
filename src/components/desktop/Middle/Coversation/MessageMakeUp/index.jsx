@@ -1,14 +1,8 @@
 import Box from '@mui/material/Box';
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-import DropDownMenu from '../../../../common/DropDownMenu';
-import MenuItem from '../../../../common/MenuItem';
-import IconButton from '../../../../common/IconButton';
-import Text from '../../../../common/Text';
-
 import * as Styled from '../../../../styled/desktop/MessageMakup';
 
+import Text from '../../../../common/Text';
 import StickyDate from './StickyDate';
 import ReplyContainer from './ReplyContainer';
 import Menu from './Menu';
@@ -21,7 +15,7 @@ function MessageMakeUp() {
     const { message: m, previous } = useMessage();
     const { settings } = useSettings();
 
-    const incoming = settings._id != m.sender._id;
+    const incoming = settings._id !== m.sender._id;
     const sameGroup = previous && (previous.sender._id === m.sender._id);
 
     return (

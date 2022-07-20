@@ -8,7 +8,7 @@ import Dialog from "../../../../common/Dialog";
 import ListItem from "./ListItem";
 
 function ThemChanger() {
-    const [open, setOpen] = useState(false);
+    const [open] = useState(false);
 
     return (
         <>

@@ -23,7 +23,7 @@ function Group({ group, onPicked }) {
     useEffect(() => {
         setGroup(group);
         doSetEmoji();
-    }, [group]);
+    }, [group, doSetEmoji]);
 
     const doSetEmoji = async () => {
         await sleep(1);

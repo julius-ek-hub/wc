@@ -1,6 +1,6 @@
 import { createTheme, darken } from "@mui/material/styles";
 
-const themeInMode = (mode = "light") =>
+const themeInMode = (mode = "dark") =>
 	createTheme({
 		palette: {
 			mode,

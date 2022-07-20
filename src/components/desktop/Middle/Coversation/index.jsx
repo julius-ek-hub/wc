@@ -12,7 +12,7 @@ import useSettings from '../../../../hooks/useSettings';
 function Conversation() {
     const { active, tempActive } = useChats();
     const { settings } = useSettings();
-    const show = settings.open != 'status';
+    const show = settings.open !== 'status';
 
     if (!active && !tempActive) return <NoChatOpen show={show} />;
 

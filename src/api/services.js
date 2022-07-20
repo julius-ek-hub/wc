@@ -12,7 +12,7 @@ export const fetEmojis = tryElseReturn(
 			"https://emoji-api.com/emojis?access_key=4213c5b5fc57e42a9289fa40233005f234f39ae6",
 		);
 
-		data.map((res) => {
+		data.forEach((res) => {
 			if (!groups.map(({ group }) => group).includes(res.group))
 				groups.push(res);
 		});

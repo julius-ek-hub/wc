@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import Menu from '@mui/material/Menu';
 
 import EditIcon from '@mui/icons-material/Edit';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
@@ -19,7 +18,6 @@ import { insertEmoji } from '../../../../utils';
 function TextEditor({ onChange, defaultValue, label, max = 255, multiline = false, ...rest }) {
 
     const [result, setResult] = useState(defaultValue || '');
-    const [iconMenuPosition, setIconMenuPosition] = useState(null);
     const inputRef = useRef()
 
     const handleTextChane = (e) => {
@@ -27,10 +25,6 @@ function TextEditor({ onChange, defaultValue, label, max = 255, multiline = fals
         setResult(e.target.value)
     }
 
-    const handleIconClose = () => {
-        setIconMenuPosition(null)
-    }
-    //setIconMenuPosition({ x: e.clientX, y: e.clientY })
     const handleEmojiChange = (value) => {
         if (result.length >= max) return;
         const ta = inputRef.current;

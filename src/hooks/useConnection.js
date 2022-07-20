@@ -2,7 +2,8 @@ import io from "socket.io-client";
 
 import useLocalStorage from "./useLocalStorage";
 
-const BASE_URL = "http://localhost:4000";
+// const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://wc-b.herokuapp.com";
 global.endpoints = {};
 
 const useConnection = () => {

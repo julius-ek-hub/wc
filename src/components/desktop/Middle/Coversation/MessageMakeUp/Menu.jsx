@@ -15,7 +15,7 @@ function Menu() {
     const { message: m, setReplyIngTo } = useMessage();
     const { settings } = useSettings();
 
-    const incoming = settings._id != m.sender._id;
+    const incoming = settings._id !== m.sender._id;
 
     return (
 
