@@ -52,7 +52,7 @@ function NewUser() {
         let value = info[key];
 
         if (key === 'email') {
-            if (!value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/))
+            if (value && !value.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/))
                 _error = 'Invalid email address';
             else
                 _error = null;
@@ -89,7 +89,6 @@ function NewUser() {
     return (
         <Center width="100%" >
             <Stack rowGap={1} width={lg ? '500px' : (md ? '60%' : '80%')}>
-                {/* <CircularProgress loading={busy} message={busyMessage} /> */}
                 <Text variant="h4" mb={1}>Sign In</Text>
                 <TextField
                     label="Telephone"
@@ -98,7 +97,7 @@ function NewUser() {
                     placeholder="Telephone number"
                     error={error.telephone !== null}
                     onBlur={handleBlur('telephone')}
-                    helperText={error.telephone ? error.telephone : "This...."}
+                    helperText={error.telephone ? error.telephone : "*Required"}
                 />
                 <TextField
                     label="Email"
@@ -107,7 +106,7 @@ function NewUser() {
                     onBlur={handleBlur('email')}
                     error={error.email !== null}
                     placeholder="Optional email address"
-                    helperText={error.email ? error.email : "This...."}
+                    helperText={error.email ? error.email : "*Optional"}
                 />
                 <Box>
                     <Button variant="contained" onClick={handleSubmit}>Login</Button>

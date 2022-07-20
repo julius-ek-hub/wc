@@ -12,6 +12,7 @@ import messages from "./features/reduces/messages";
 import extras from "./features/reduces/extras";
 
 import App from "./App";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
 const store = configureStore({
 	reducer: { chats, settings, messages, extras },
@@ -23,7 +24,9 @@ const root = createRoot(container);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<App />
+			<ErrorBoundary>
+				<App />
+			</ErrorBoundary>
 		</Provider>
 	</StrictMode>,
 );

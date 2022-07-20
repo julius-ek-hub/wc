@@ -10,6 +10,7 @@ export default function Dialog({ title, buttons, open, onClose, children }) {
         <MuiDialog
             open={open}
             onClose={onClose}
+            fullWidth
         >
             <DialogTitle>
                 {title}

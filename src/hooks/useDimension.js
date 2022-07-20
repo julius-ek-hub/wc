@@ -12,6 +12,11 @@ function useDimension() {
 	const lg = useSize("lg");
 	const xlg = useSize("xlg");
 
+	if (xsm)
+		throw new Error(
+			"Screen size too small, App is not that responsive. If you resized your screen, don't forget to refresh after resizing to a normal screen size",
+		);
+
 	return {
 		md,
 		sm,
