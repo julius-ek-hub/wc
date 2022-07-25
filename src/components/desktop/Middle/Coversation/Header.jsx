@@ -16,7 +16,7 @@ import useChats from '../../../../hooks/useChats';
 import StyledHeader from '../../../styled/desktop/Header';
 
 function Header() {
-    const { activeChat, setUserInfoOpen, updateStore } = useChats();
+    const { activeChat, setUserInfoOpen, updateChats } = useChats();
     let c = activeChat();
 
     c = c.partnerInfo || c;
@@ -40,8 +40,8 @@ function Header() {
                     <MenuItem label="Contact info" onClick={() => setUserInfoOpen(true)} />
                     <MenuItem label="Select messages" />
                     <MenuItem label="Close chat" onClick={() => {
-                        updateStore('active', null);
-                        updateStore('tempActive', null);
+                        updateChats('active', null);
+                        updateChats('tempActive', null);
                         setUserInfoOpen(false);
                     }} />
                     <MenuItem label="Mute notifications" />

@@ -13,9 +13,9 @@ import useSettings from '../../../../../hooks/useSettings';
 function Menu() {
 
     const { message: m, setReplyIngTo } = useMessage();
-    const { settings } = useSettings();
+    const { _id } = useSettings();
 
-    const incoming = settings._id !== m.sender._id;
+    const incoming = _id !== m.sender._id;
 
     return (
 

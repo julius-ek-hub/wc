@@ -20,11 +20,6 @@ function Group({ group, onPicked }) {
 
     const groupName = group.split('-').map(capitalizeFirstLetter).join(' & ');
 
-    useEffect(() => {
-        setGroup(group);
-        doSetEmoji();
-    }, [group, doSetEmoji]);
-
     const doSetEmoji = async () => {
         await sleep(1);
         setAllEmojis(emojis.filter(emoji => emoji.group === group).map(emoji => (
@@ -33,6 +28,11 @@ function Group({ group, onPicked }) {
                 Icon={() => emoji.character} key={emoji.slug} />
         )))
     }
+
+    useEffect(() => {
+        setGroup(group);
+        doSetEmoji();
+    }, [group]);
 
     return (
         <Animate

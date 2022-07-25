@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import View from './View';
+import MainView from './views/Main';
 import Left from './Left';
 import Middle from './Middle';
 import Right from './Right';
@@ -9,18 +9,18 @@ import NewUser from '../common/NewUser';
 import useSettings from '../../hooks/useSettings';
 
 function WhatsAppDesktop() {
-    const { settings } = useSettings();
+    const { _id } = useSettings();
 
     return (
-        <View>
-            {settings ? (
+        <MainView>
+            {_id ? (
                 <>
                     <Left />
                     <Middle />
                     <Right />
                 </>
             ) : <NewUser />}
-        </View>
+        </MainView>
     )
 }
 

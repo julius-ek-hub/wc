@@ -1,12 +1,17 @@
 import Button from "@mui/material/Button";
 
+import { useTheme } from "@mui/material/styles";
+
 import Dialog from "./Dialog";
 
-function Confirm({ okText, cancelText, open, children, onAccept, onRefuse, ...rest }) {
+function Confirm({ onAccept, onRefuse, ...rest }) {
+    const { palette } = useTheme();
+    const border = `1px solid ${palette.primary.main}`;
+
     return (
-        <Dialog buttons={<>
-            <Button>Cancel</Button>
-            <Button variant="contained">OK</Button>
+        <Dialog {...rest} buttons={<>
+            <Button sx={{ border, minWidth: 100 }} onClick={onRefuse}>Cancel</Button>
+            <Button variant="contained" onClick={onAccept} sx={{ border }}>OK</Button>
         </>} />
     );
 }

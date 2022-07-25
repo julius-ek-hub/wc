@@ -11,14 +11,14 @@ import Text from '../../../common/Text';
 import useSettings from '../../../../hooks/useSettings';
 
 function StatusList() {
-    const { updateStore, settings } = useSettings();
+    const { updateSettings, open } = useSettings();
 
     return (
-        <Animate type='fade' in={settings.open === 'status'}>
+        <Animate type='fade' in={open === 'status'}>
             <Stack>
                 <Header p={0} sx={{ p: 0, pt: 2, pb: 1 }}>
                     <MenuItem
-                        onClick={() => updateStore('open', null)}
+                        onClick={() => updateSettings('open', null)}
                         sx={{ p: 1, width: '100%', pl: 3 }}
                         Icon={() => <Avatar />}>
                         <Box ml={1}>

@@ -18,9 +18,7 @@ function useTypingArea() {
 	const { realActive } = useChats();
 
 	const textAreaREf = useRef();
-	const {
-		settings: { _id, userName, dp, telephone },
-	} = useSettings();
+	const { _id, userName, dp, telephone } = useSettings();
 
 	const handleEmojiPicked = (value) => {
 		const ta = textAreaREf.current;
@@ -53,7 +51,7 @@ function useTypingArea() {
 		sendMessage({
 			_id: Date.now(),
 			message: text,
-			sender: { _id, userName: userName || "", dp: dp || "", telephone },
+			sender: { _id, userName, dp, telephone },
 			receipt: {
 				sent: new Date().toISOString(),
 			},

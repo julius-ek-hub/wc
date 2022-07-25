@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 
 import { styled } from '@mui/material/styles';
 
-export const DesktopView = styled(Box)(({ theme }) => ({
+export const MainView = styled(Box)(({ theme }) => ({
     height: '100vh',
     backgroundColor: theme.palette.background.paper,
     position: 'relative',

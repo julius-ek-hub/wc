@@ -5,7 +5,7 @@ import useExtraResources from "./useExtraResources";
 
 function useAppInitialiser() {
 	const [preparingComponents, setPreparingComponents] = useState(true);
-	const { settings, initializeExistingUser } = useSettings();
+	const { initializeExistingUser, ...settings } = useSettings();
 	const { fetchEmojis, allReady } = useExtraResources();
 
 	useEffect(() => {

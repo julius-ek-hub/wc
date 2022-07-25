@@ -13,7 +13,7 @@ const useMessages = () => {
 	const { messages, fetching, replyingTo } = useSelector(selectMessages);
 	const { active, tempActive, realActive, updateStore, addChats, chatInfo } =
 		useChats();
-	const { updateStore: updateSettings, settings } = useSettings();
+	const { updateSettings, _id } = useSettings();
 	const dispatch = useDispatch();
 
 	const conn = useConnection();
@@ -85,15 +85,12 @@ const useMessages = () => {
 			message,
 			chatId: realActive,
 			partnerId,
-		})
+		});
 	};
 
 	const listenForNewMessages = async () => {
-		if (settings.listening_newMessage) return;
-
+		conn.on("receive-message-" + _id, addMessage);
 		updateSettings("listening_newMessage", true);
-
-		conn.on("receive-message-" + settings._id, addMessage);
 	};
 
 	return {

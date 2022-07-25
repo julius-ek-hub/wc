@@ -3,17 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const extraSlice = createSlice({
 	name: "extras",
 	initialState: {
-		emojis: {
-			fetching: true,
-			emojis: [],
-			groups: [],
-		},
-		gifs: {
-			fetching: true,
-			gifs: [],
-			groups: [],
-		},
-		allReady: false,
+		emojis: null,
+		gifs: null,
 	},
 	reducers: {
 		setEmojis(state, { payload }) {

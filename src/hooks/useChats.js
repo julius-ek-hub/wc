@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOthers, selectChats, addChats } from "../features/reduces/chats";
 
 import useConnection from "./useConnection";
-import useSettings from './useSettings';
+import useSettings from "./useSettings";
 
 const useChats = () => {
 	const {
@@ -17,7 +17,7 @@ const useChats = () => {
 	const connection = useConnection();
 	const dispatch = useDispatch();
 
-	const {settings} = useSettings();
+	const { _id } = useSettings();
 
 	const realActive = active || tempActive;
 
@@ -32,10 +32,10 @@ const useChats = () => {
 		return {};
 	};
 
-	const updateStore = (key, value) => dispatch(updateOthers({ key, value }));
+	const updateChats = (key, value) => dispatch(updateOthers({ key, value }));
 
 	const setUserInfoOpen = (open) =>
-		updateStore("openedUserInfo", open ? realActive : null);
+		updateChats("openedUserInfo", open ? realActive : null);
 
 	const setActiveChat = (_id) => {
 		setUserInfoOpen(false);
@@ -44,15 +44,15 @@ const useChats = () => {
 
 	const fetchPublicContacts = async () => {
 		const { data } = await connection.emit("public-contacts");
-		updateStore("publicContacts", data);
+		updateChats("publicContacts", data);
 	};
 
 	const listenForNewChats = async () => {
 		if (listingForNewChat) return;
 
-		updateStore("listingForNewChat", true);
+		updateChats("listingForNewChat", true);
 		connection.use("/live");
-		connection.on(`new-chat-${settings._id}`, (data) => {
+		connection.on(`new-chat-${_id}`, (data) => {
 			dispatch(addChats(data));
 		});
 	};
@@ -71,7 +71,7 @@ const useChats = () => {
 		publicContacts,
 		userInfoOpened: openedUserInfo && openedUserInfo === realActive,
 		setUserInfoOpen,
-		updateStore,
+		updateChats,
 		fetchPublicContacts,
 		addChats: (chat) => dispatch(addChats(chat)),
 		listenForNewChats,

@@ -4,12 +4,12 @@ import Text from '../../../../common/Text';
 import { Reply } from '../../../../styled/desktop/MessageMakup';
 
 function ReplyContainer({ replyingTo, ...rest }) {
-    const { settings } = useSettings();
+    const { _id } = useSettings();
 
     if (!replyingTo) return null;
 
     const { sender, message } = replyingTo;
-    const fromMe = sender._id === settings._id;
+    const fromMe = sender._id === _id;
 
     return (
         <Reply className='reply' {...rest}>

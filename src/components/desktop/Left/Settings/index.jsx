@@ -1,8 +1,11 @@
 import Profile from './Profile';
 import Main from './Main';
 import Notifications from './Notifications';
-import Theme from './Theme';
+import Privacy from './Privacy';
+import Security from './Security';
 import ChatWallPaper from './ChatWallPaper';
+import AccountInfo from './AccountInfo';
+import Help from './Help';
 
 function Settings() {
     return (
@@ -10,8 +13,11 @@ function Settings() {
             <Main />
             <Profile />
             <Notifications />
-            <Theme />
+            <Privacy />
+            <Security />
             <ChatWallPaper />
+            <AccountInfo />
+            <Help />
         </>
     );
 }

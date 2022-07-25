@@ -1,26 +1,26 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectSettings, updateValue } from "../features/reduces/settings";
+import { updateSettings as updateStore } from "../features/reduces/settings";
 
 import useConnection from "./useConnection";
 import useLocalStorage from "./useLocalStorage";
 
 const useSettings = () => {
-	const { value } = useSelector(selectSettings);
+	const { settings } = useSelector(({ settings }) => settings);
 	const dispatch = useDispatch();
 	const connection = useConnection();
 	const { get } = useLocalStorage();
 
-	const updateStore = (key, _value) => {
+	const updateSettings = (key, value) => {
 		dispatch(
-			updateValue({
-				...value,
-				[key]: _value,
+			updateStore({
+				...settings,
+				[key]: value,
 			}),
 		);
 	};
 
 	const initializeUserInfo = (details) => {
-		dispatch(updateValue(details));
+		dispatch(updateStore(details));
 	};
 
 	const initializeExistingUser = () => {
@@ -29,7 +29,8 @@ const useSettings = () => {
 
 		return new Promise(async (res) => {
 			const token = get("wc-jwt-user");
-			if (!token) res();
+			if (!token) return res();
+
 			const socket = await connection.use("/auth");
 			socket.emit("verify", token, (response) => {
 				if (response) initializeUserInfo({ ...response, theme });
@@ -40,10 +41,10 @@ const useSettings = () => {
 	};
 
 	return {
-		settings: value,
+		...settings,
 		initializeUserInfo,
 		initializeExistingUser,
-		updateStore,
+		updateSettings,
 	};
 };
 

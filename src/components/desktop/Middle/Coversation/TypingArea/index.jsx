@@ -43,7 +43,7 @@ function TypingArea() {
                     placeholder="Type a message"
                     size="small" />
                 <ButtonWithIcon animate={false} onClick={ta.sendMessage} show={text} Icon={SendIcon} />
-                <ButtonWithIcon animate={false} onClick={ta.sendMessage} show={!text} Icon={MicIcon} />
+                <ButtonWithIcon animate={false} show={!text} Icon={MicIcon} />
             </Box>
         </Box>
     );

@@ -21,14 +21,15 @@ function TextEditor({ onChange, defaultValue, label, max = 255, multiline = fals
     const inputRef = useRef()
 
     const handleTextChane = (e) => {
+
         if (result.length >= max && e.nativeEvent.data) return;
         setResult(e.target.value)
     }
 
     const handleEmojiChange = (value) => {
-        if (result.length >= max) return;
         const ta = inputRef.current;
-        insertEmoji(value.character, ta)
+        if (ta.value.length >= max) return;
+        insertEmoji(value.character, ta);
         setResult(ta.value);
         ta.focus();
     }

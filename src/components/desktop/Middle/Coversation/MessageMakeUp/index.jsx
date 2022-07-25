@@ -13,9 +13,9 @@ import useSettings from '../../../../../hooks/useSettings';
 function MessageMakeUp() {
 
     const { message: m, previous } = useMessage();
-    const { settings } = useSettings();
+    const { _id } = useSettings();
 
-    const incoming = settings._id !== m.sender._id;
+    const incoming = _id !== m.sender._id;
     const sameGroup = previous && (previous.sender._id === m.sender._id);
 
     return (

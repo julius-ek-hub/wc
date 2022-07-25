@@ -1,24 +1,45 @@
 import { useState } from "react";
 
-import Button from "@mui/material/Button";
-
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
-import Dialog from "../../../../common/Dialog";
+import Confirm from "../../../../common/Confirm";
 import ListItem from "./ListItem";
+import Radio from "../Privacy/Radio";
+
+import useSettings from "../../../../../hooks/useSettings";
+import useLocalStorage from "../../../../../hooks/useLocalStorage";
 
 function ThemChanger() {
-    const [open] = useState(false);
+    const [open, setOpen] = useState(false);
+    const { theme, updateSettings } = useSettings();
+    const [selectedTheme, setSelectedTheme] = useState(theme || 'dark');
+    const { set } = useLocalStorage();
+
+    const doUpdateStore = () => {
+        set('theme', selectedTheme);
+        updateSettings('theme', selectedTheme === 'default' ? 'dark' : selectedTheme);
+        setOpen(false);
+    }
+
+    const handleThemChange = (e, theme) => setSelectedTheme(theme);
 
     return (
         <>
-            <ListItem Icon={DarkModeIcon} to="theme" />
-            <Dialog
+            <ListItem
+                Icon={DarkModeIcon}
+                onClick={() => setOpen(true)}
+                to="theme" />
+            <Confirm
                 open={open}
-                buttons={<>
-                    <Button>Cancel</Button>
-                    <Button variant="contained">OK</Button>
-                </>} />
+                title="Choose theme"
+                onAccept={doUpdateStore}
+                onRefuse={() => setOpen(false)}>
+                <Radio.Group defaultValue={theme || 'dark'} onChange={handleThemChange}>
+                    <Radio.Label label="Light" value="light" sx={{ mt: 0 }} />
+                    <Radio.Label label="Dark" value="dark" sx={{ mt: 0 }} />
+                    <Radio.Label label="System default" value="default" sx={{ mt: 0 }} />
+                </Radio.Group>
+            </Confirm>
         </>
 
     );

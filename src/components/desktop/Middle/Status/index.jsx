@@ -2,9 +2,9 @@ import NoStatusOpen from './NoStatusOpen';
 import useSettings from '../../../../hooks/useSettings';
 
 function Status() {
-    const { settings } = useSettings();
+    const { open } = useSettings();
 
-    return <NoStatusOpen show={settings.open === 'status'} />;
+    return <NoStatusOpen show={open === 'status'} />;
 }
 
 export default Status;

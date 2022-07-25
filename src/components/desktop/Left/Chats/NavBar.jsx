@@ -9,23 +9,23 @@ import IconButton from '../../../common/IconButton';
 import DropDownMenu from '../../../common/DropDownMenu';
 import MenuItem from '../../../common/MenuItem';
 import Header from '../../../styled/desktop/Header';
-import useChats from '../../../../hooks/useChats';
 import useSettings from '../../../../hooks/useSettings';
 
 function NavBar() {
-    const { updateStore } = useChats();
-    const { updateStore: updateSettings } = useSettings();
+    const { updateSettings } = useSettings();
+
+    const open = (route) => () => updateSettings('open', route);
 
     return (
         <Header justifyContent="space-between" br>
             <Avatar />
             <Stack direction="row" columnGap={1}>
-                <IconButton Icon={PanoramaFishEyeIcon} onClick={() => updateSettings('open', 'status')} />
-                <IconButton Icon={ChatIcon} onClick={() => updateStore('addingChats', true)} />
+                <IconButton Icon={PanoramaFishEyeIcon} onClick={open('status')} />
+                <IconButton Icon={ChatIcon} onClick={open('public-chat')} />
                 <DropDownMenu InvokeComponent={(props) => <IconButton Icon={MoreVertIcon} {...props} />}>
-                    <MenuItem label="New group" />
-                    <MenuItem label="Starred messages" />
-                    <MenuItem label="Settings" onClick={() => updateSettings('open', 'settings')} />
+                    <MenuItem label="New group" onClick={open('new-group')} />
+                    <MenuItem label="Starred messages" onClick={open('starred-messages')} />
+                    <MenuItem label="Settings" onClick={open('settings')} />
                     <MenuItem label="Logout" />
                 </DropDownMenu>
             </Stack>

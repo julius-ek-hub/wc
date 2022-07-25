@@ -22,7 +22,7 @@ const useExtraResources = () => {
 	return {
 		emojis,
 		fetchEmojis,
-		allReady: !emojis.fetching,
+		allReady: emojis && !emojis.fetching,
 	};
 };
 

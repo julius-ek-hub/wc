@@ -8,20 +8,20 @@ import useSettings from "../../../../hooks/useSettings";
 import useMessages from "../../../../hooks/useMessages";
 
 function Listings() {
-    const { chats, updateStore, listenForNewChats } = useChats();
+    const { chats: ch, updateChats, listenForNewChats } = useChats();
     const { listenForNewMessages } = useMessages();
-    const { settings } = useSettings();
+    const { chats } = useSettings();
 
 
     useEffect(() => {
-        updateStore('chats', settings.chats);
+        updateChats('chats', chats);
         listenForNewChats();
         listenForNewMessages();
-    }, [settings.chats]);
+    }, [chats]);
 
-    const allChats = useMemo(() => chats.map(({ id }) => (
+    const allChats = useMemo(() => ch.map(({ id }) => (
         <ChatMakeUp id={id} key={id} />
-    )), [chats]);
+    )), [ch]);
 
     return (
         <List className="custom-scrollbar">

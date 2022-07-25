@@ -4,12 +4,12 @@ import useSettings from '../../../../../hooks/useSettings';
 
 import { capitalizeFirstLetter } from '../../../../../utils';
 
-function ListItem({ to, Icon }) {
-    const { updateStore } = useSettings();
+function ListItem({ to, Icon, onClick }) {
+    const { updateSettings } = useSettings();
 
     return (
         <MenuItem
-            onClick={() => updateStore('open', to)}
+            onClick={onClick ? onClick : () => updateSettings('open', to)}
             sx={{ p: 2 }}
             Icon={Icon}
             isx={{ fontSize: 30, mr: 2 }}

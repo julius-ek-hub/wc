@@ -10,8 +10,8 @@ import useChats from "../../../../hooks/useChats";
 import useSettings from "../../../../hooks/useSettings";
 
 function Listings() {
-    const { publicContacts, fetchPublicContacts, updateStore, chats } = useChats();
-    const { settings } = useSettings();
+    const { publicContacts, fetchPublicContacts, updateChats, chats } = useChats();
+    const { _id } = useSettings();
 
     useEffect(() => {
         fetchPublicContacts();
@@ -19,7 +19,7 @@ function Listings() {
 
     const allChats = useMemo(() => publicContacts.filter(({ id }) => !chats.map(c => c.id).includes(id)).map((contact) => (
         <ContactMakeUp
-            onClick={() => updateStore('tempActive', settings._id + '_and_' + contact._id)}
+            onClick={() => updateChats('tempActive', _id + '_and_' + contact._id)}
             info={contact}
             key={contact._id} />
     )), [publicContacts]);

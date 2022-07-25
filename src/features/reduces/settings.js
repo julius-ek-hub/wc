@@ -3,17 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const settingsSlice = createSlice({
 	name: "settings",
 	initialState: {
-		value: null,
+		settings: null,
 	},
 	reducers: {
-		updateValue(state, { payload }) {
-			state.value = payload;
+		updateSettings(state, { payload }) {
+			state.settings = payload;
 		},
 	},
 });
 
-export const { updateValue } = settingsSlice.actions;
-
-export const selectSettings = ({ settings }) => settings;
+export const { updateSettings } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
