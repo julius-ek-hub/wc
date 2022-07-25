@@ -1,5 +1,7 @@
 import Conversation from './Coversation';
 import Status from './Status';
+import WallpaperPreview from './WallpaperPreview';
+
 import * as Styled from '../../styled/desktop/Middle';
 
 import useChats from '../../../hooks/useChats';
@@ -15,6 +17,7 @@ function Middle() {
             left={mainLeftWidth}>
             <Conversation />
             <Status />
+            <WallpaperPreview />
         </Styled.Middle>
     );
 }

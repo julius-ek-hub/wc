@@ -5,6 +5,7 @@ import Chats from './Chats';
 import StatusList from './StatusList';
 import PublicContacts from './PublicContacts';
 import Settings from './Settings';
+import ChatsForNewGroup from './ChatsForNewGroup';
 
 import useDimension from '../../../hooks/useDimension';
 
@@ -18,6 +19,7 @@ function Left() {
                 <StatusList />
                 <PublicContacts />
                 <Settings />
+                <ChatsForNewGroup />
             </Box>
         </Styled.Left>
     );

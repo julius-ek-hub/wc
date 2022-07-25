@@ -34,7 +34,7 @@ function Security() {
                 </Center>
                 <Text ellipsis={false} mt={2}>
                     Messages and calls in end-to-end encrypted chats stay between you and the people you choose.
-                    Not even WhatsApp clone can read or listen to them. <Link underline='none' href="#">Learn more</Link>
+                    Not even WhatsApp clone can read or listen to them. <Link>Learn more</Link>
                 </Text>
                 <Box display="flex" mt={2}>
                     <Box alignItems='flex-start' mr={1}>
@@ -42,10 +42,9 @@ function Security() {
                     </Box>
                     <Box>
                         <Text ellipsis={false}>Show security notifications on this computer</Text>
-                        <Text ellipsis={false} color="text.disabled">
+                        <Text ellipsis={false} alpha={0.5}>
                             Get notified when your security code changes for a contact's phone. If you have multiple
-                            devices, this setting must be enable on each device where you want to get the notifications.
-                            <Link underline='none' href="#">Learn more</Link>
+                            devices, this setting must be enable on each device where you want to get the notifications. <Link>Learn more</Link>
                         </Text>
                     </Box>
                 </Box>

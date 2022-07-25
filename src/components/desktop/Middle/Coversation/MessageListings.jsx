@@ -7,10 +7,12 @@ import CircularProgress from '../../../common/LoadingIndicators/CircularProgress
 import MessageContext from '../../../../contexts/MessageContext';
 import useChats from '../../../../hooks/useChats';
 import { useEffect } from 'react';
+import useSettings from '../../../../hooks/useSettings';
 
 function MessageListings() {
     const { messages, fetching, getAllMessage } = useMessages();
     const { active, tempActive } = useChats();
+    const { wallPaperStyle } = useSettings();
 
     useEffect(() => {
         getAllMessage();
@@ -22,8 +24,7 @@ function MessageListings() {
             overflow: 'auto',
             transition: '50ms all',
             pb: 2,
-            backgroundImage: theme => `url(/bg.${theme.palette.mode}.png)`,
-            backgroundSize: 'contain'
+            ...wallPaperStyle(),
         }}>
             <CircularProgress loading={fetching} mt={2} />
             {messages.map(({ _id }) => (

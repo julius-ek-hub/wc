@@ -14,7 +14,7 @@ function Conversation() {
     const { open } = useSettings();
     const show = open !== 'status';
 
-    if (!active && !tempActive) return <NoChatOpen show={show} />;
+    if (!active && !tempActive) return <NoChatOpen show={show && open !== 'chat-wallpaper'} />;
 
     return (
         <Animate type='fade'

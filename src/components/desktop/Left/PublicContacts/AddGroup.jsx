@@ -1,7 +1,7 @@
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 
-import PeopleIcon from '@mui/icons-material/People';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 import * as Styled from '../../../styled/desktop/Chat';
 import Text from '../../../common/Text';
@@ -23,7 +23,7 @@ const AddGroup = () => {
                 display: 'flex',
                 color: 'secondaryHeaderText'
             }}>
-                <PeopleIcon />
+                <GroupsIcon />
             </ListItemAvatar>
             <ListItemText primary={<Text ellipsis>New Group</Text>} />
         </Styled.Chat>

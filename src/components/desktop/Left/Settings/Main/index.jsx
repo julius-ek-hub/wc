@@ -44,7 +44,7 @@ function Main() {
                 <ListItem Icon={WallpaperIcon} to="chat-wallpaper" />
                 <ListItem Icon={DescriptionIcon} to="request-account-info" />
                 <KeyboardShortcuts />
-                <ListItem Icon={ContactSupportIcon} to="help" />
+                <ListItem Icon={ContactSupportIcon} to="help" showDivider={false} />
             </Box>
         </Sub>
     );

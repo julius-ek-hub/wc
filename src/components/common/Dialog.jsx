@@ -4,17 +4,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import Grow from '@mui/material/Grow';
+
 import { useTheme, alpha } from '@mui/material/styles';
 
 export default function Dialog({ title, buttons, open, onClose, children, sx, ...rest }) {
 
     const { palette } = useTheme();
 
-    if (!open) return null;
     return (
         <MuiDialog
             open={open}
             onClose={onClose}
+            transitionDuration={600}
+            TransitionComponent={Grow}
             fullWidth
             componentsProps={{
                 backdrop: {

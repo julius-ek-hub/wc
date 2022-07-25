@@ -6,7 +6,7 @@ function Alert({ children, onClose, ...rest }) {
 
     return (
         <Dialog {...rest} buttons={<>
-            <Button variant="contained" onClick={onClose} >OK</Button>
+            <Button variant="contained" onClick={onClose} size="large">OK</Button>
         </>} >{children}</Dialog>
     );
 }

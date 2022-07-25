@@ -4,18 +4,14 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
 
-import { darken, useTheme } from "@mui/material/styles";
+import { darken } from "@mui/material/styles";
 
 import KeyboardIcon from '@mui/icons-material/Keyboard';
 
-import Confirm from "../../../../common/Confirm";
 import ListItem from "./ListItem";
-import Radio from "../Privacy/Radio";
 import Alert from "../../../../common/Alert";
 import Text from "../../../../common/Text";
 
-import useSettings from "../../../../../hooks/useSettings";
-import useLocalStorage from "../../../../../hooks/useLocalStorage";
 import useDimension from "../../../../../hooks/useDimension";
 
 function KeyboardShortcuts() {
@@ -23,18 +19,18 @@ function KeyboardShortcuts() {
     const { lg } = useDimension();
 
     const StackItem = ({ label, shortcuts }) => (
-        <Box display="flex" mt={1.5} alignItems="center" justifyContent="space-between">
+        <Box display="flex" mt={2.5} alignItems="center" justifyContent="space-between">
             <Text fontSize="small">{label}</Text>
             <Box display="flex" gap="4px">
                 {shortcuts.split(' ').map((shortcut, i) => (
-                    <Chip label={shortcut} sx={{
+                    <Chip size="small" label={shortcut} sx={{
                         borderRadius: 2,
                         border: theme => `1px solid ${darken(theme.palette.primaryHeaderBg, 0.4)}`
                     }} key={i} />)
                 )}
             </Box>
         </Box>
-    )
+    );
 
     return (
         <>

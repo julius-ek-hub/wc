@@ -23,6 +23,25 @@ const useSettings = () => {
 		dispatch(updateStore(details));
 	};
 
+	const wallPaperStyle = (color) => {
+		const wallpaper =
+			color || settings.wallpaper_preview || settings.wallpaper || "";
+
+		return wallpaper.startsWith("#")
+			? {
+					bgcolor: wallpaper,
+			  }
+			: wallpaper === "default"
+			? {
+					backgroundImage: (theme) => `url(/bg.${theme.palette.mode}.png)`,
+					backgroundSize: "contain",
+			  }
+			: {
+					backgroundImage: wallpaper,
+					backgroundSize: "contain",
+			  };
+	};
+
 	const initializeExistingUser = () => {
 		let theme = get("theme");
 		if (!["dark", "light"].includes(theme)) theme = "dark";
@@ -33,7 +52,12 @@ const useSettings = () => {
 
 			const socket = await connection.use("/auth");
 			socket.emit("verify", token, (response) => {
-				if (response) initializeUserInfo({ ...response, theme });
+				if (response)
+					initializeUserInfo({
+						...response,
+						wallpaper: response.wallpaper || "default",
+						theme,
+					});
 				socket.disconnect();
 				res();
 			});
@@ -45,6 +69,7 @@ const useSettings = () => {
 		initializeUserInfo,
 		initializeExistingUser,
 		updateSettings,
+		wallPaperStyle,
 	};
 };
 

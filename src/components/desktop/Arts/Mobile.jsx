@@ -42,7 +42,7 @@ function Mobile({ height = 140, width = 70, Content, ...rest }) {
                     bgcolor={lightColor}
                     borderRadius={3}
                     border={darkBorder}>
-                    {Content ? <Content /> : (
+                    {Content ? <Content sx={{ color: darkColor }} /> : (
                         <Box display="flex" gap="2px" height="25px" alignItems="baseline" position="relative">
                             <Bar height="20%" />
                             <Bar height="40%" />

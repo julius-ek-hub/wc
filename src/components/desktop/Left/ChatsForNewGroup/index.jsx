@@ -1,26 +1,27 @@
+import ContactMakeUp from "../../../common/ContactMakeUp";
+
 import Stack from '@mui/material/Stack';
 
-import SearchBar from '../SearchBar';
-import Listings from './Listings';
+import SearchBar from "../SearchBar";
 import SecondaryHeader from '../../SecondaryHeader';
 import Animate from '../../../common/Animate';
 
 import useSettings from '../../../../hooks/useSettings';
 
-function PublicContacts() {
+function ChatsForNewGroup() {
     const { updateSettings, open } = useSettings()
 
     return (
-        <Animate direction='right' in={open === 'public-chat'}>
+        <Animate direction='right' in={open === 'new-group'}>
             <Stack>
                 <SecondaryHeader
                     title="New Chat"
                     onClose={() => updateSettings('open', null)} />
-                <SearchBar placeholder="Search public contacts" />
-                <Listings />
+                <SearchBar placeholder="Type contact name" hideArrowIcon />
+                Hello
             </Stack>
         </Animate>
     );
 }
 
-export default PublicContacts;
+export default ChatsForNewGroup;

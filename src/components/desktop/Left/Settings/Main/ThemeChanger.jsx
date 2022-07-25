@@ -34,7 +34,7 @@ function ThemChanger() {
                 title="Choose theme"
                 onAccept={doUpdateStore}
                 onRefuse={() => setOpen(false)}>
-                <Radio.Group defaultValue={theme || 'dark'} onChange={handleThemChange}>
+                <Radio.Group value={selectedTheme || 'dark'} onChange={handleThemChange}>
                     <Radio.Label label="Light" value="light" sx={{ mt: 0 }} />
                     <Radio.Label label="Dark" value="dark" sx={{ mt: 0 }} />
                     <Radio.Label label="System default" value="default" sx={{ mt: 0 }} />

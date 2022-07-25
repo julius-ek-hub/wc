@@ -29,8 +29,17 @@ const themeInMode = (mode = "dark") =>
 			MuiButtonBase: {
 				defaultProps: {
 					disableRipple: true,
-					style: {
+					sx: {
 						textTransform: "none",
+					},
+				},
+			},
+			MuiLink: {
+				defaultProps: {
+					underline: "none",
+					href: "#",
+					sx: {
+						cursor: "pointer",
 					},
 				},
 			},
