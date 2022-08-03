@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import useRTC from "./useRTC";
 import useSettings from "./useSettings";
 import useConnection from "./useConnection";
 import useChats from "./useChats";
 
-import { sleep } from "../utils";
+import { sleep, recordTime } from "../utils";
 
 function useCalls() {
 	const [state, setState] = useState({});
@@ -24,12 +24,24 @@ function useCalls() {
 
 	const { call, _id, updateSettings } = useSettings();
 	const { chatInfoFromUserId } = useChats();
+	const callDurationRef = useRef();
+	const callDuration = useRef(0);
 
 	const update = (_update) => {
 		setState({
 			...state,
 			..._update,
 		});
+	};
+
+	const stopTimer = () => clearInterval(callDurationRef.current);
+
+	const startTimer = () => {
+		stopTimer();
+		callDurationRef.current = setInterval(() => {
+			callDuration++;
+			setStatus(recordTime(callDuration));
+		}, 1000);
 	};
 
 	const mute = (index, key) => {
@@ -51,6 +63,8 @@ function useCalls() {
 		updateSettings("call", undefined);
 		setState({});
 		setTo({});
+		stopTimer();
+		callDurationRef.current = 0;
 		setStatus("");
 		conn.removeListeners([`declined-${call.from._id}`]);
 	};
@@ -62,6 +76,7 @@ function useCalls() {
 			? localTracks[1].play(`user-${myUID}`)
 			: localTracks.play(`user-${myUID}`);
 		remoteTracks[0]?._videoTrack?.play(`user-${remoteTracks[0].uid}`);
+		startTimer();
 		onRemoteLeave(endCall);
 	};
 
