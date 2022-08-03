@@ -69,11 +69,11 @@ export const date = (d) => {
 	let messageN =
 		forMessageNow.split(":").slice(0, 2).join(":") +
 		" " +
-		forMessageNow.split(" ")[1];
+		(forMessageNow.split(" ")[1] || "");
 	let messageT =
 		forMessageThen.split(":").slice(0, 2).join(":") +
 		" " +
-		forMessageNow.split(" ")[1];
+		(forMessageNow.split(" ")[1] || "");
 	if (yearNow === yearThen) {
 		sticky = dSplit[1] + " " + dSplit[2];
 		if (monthNow === monthThen && dayNow - dayThen === 1) sticky = "Yesterday";

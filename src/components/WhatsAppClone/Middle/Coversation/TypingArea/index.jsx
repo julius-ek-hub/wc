@@ -29,7 +29,7 @@ function TypingArea() {
 
     const chat = chatInfo(active);
 
-    const recording = chat.recording;
+    const recording = chat?.recording;
 
     useEffect(() => {
         const _ta = ta.textAreaREf.current;
@@ -39,7 +39,9 @@ function TypingArea() {
             ta.setText('');
             setReplyIngTo(null);
         }
-    }, [active])
+    }, [active]);
+
+    if (!chat) return null;
 
     return (
         <Animate in={!selecting} direction="up">

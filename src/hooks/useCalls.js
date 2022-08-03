@@ -98,7 +98,8 @@ function useCalls() {
 			setTo(_to);
 
 			if (localTracks.length === 0 && !state.ended) {
-				const cname = chatInfoFromUserId(_to._id).id;
+				const cname = chatInfoFromUserId(_to._id)?.id;
+				if (!cname) return;
 				if (!iCalled) {
 					if (state.accepted)
 						joinCall({ uid: to._id, cname, role: "subscriber" }).catch(endCall);

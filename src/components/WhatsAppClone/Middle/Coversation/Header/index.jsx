@@ -27,17 +27,22 @@ function Header() {
     const { updateChat } = useSettings();
     const conn = useConnection();
     const chat = activeChat();
-    const c = chat.partnerInfo;
-    const ls = chat.lastSeen;
+    const c = chat?.partnerInfo;
+    const ls = chat?.lastSeen;
 
     useEffect(() => {
-        if (!ls) {
+        if (c && !ls) {
             conn.emit('last-seen', c._id).then(({ data }) => {
                 const lastSeen = data.lastSeen;
                 lastSeen && updateChat(chat.id, 'lastSeen', lastSeen)
             })
         }
-    }, [active])
+        if (!c) {
+            updateChats('active', null);
+        }
+    }, [active, c])
+
+    if (!c) return null;
 
     return (
         <StyledHeader component="header">

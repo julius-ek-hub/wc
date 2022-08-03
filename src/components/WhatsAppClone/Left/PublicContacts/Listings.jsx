@@ -24,7 +24,7 @@ function Listings() {
             <ContactsList
                 loading={loading}
                 beforeListComponent={<AddGroup />}
-                list={publicContacts}
+                list={[...publicContacts].reverse()}
                 onClick={addTempChat}
             />
         </>
