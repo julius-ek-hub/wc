@@ -41,8 +41,7 @@ function useRTC() {
 			type === "audio"
 				? "createMicrophoneAudioTrack"
 				: "createMicrophoneAndCameraTracks";
-		let tracks = await AgoraRTC[request]();
-
+		const tracks = await AgoraRTC[request]();
 		setMyUID(myuid);
 		setLocalTracks(tracks);
 		await client.publish(tracks);
