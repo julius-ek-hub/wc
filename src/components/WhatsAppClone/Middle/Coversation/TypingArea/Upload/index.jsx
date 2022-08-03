@@ -37,7 +37,7 @@ export default function Upload() {
     }
 
     const choosePictureOrVideo = async () => {
-        const files = await chooseFileFromStorage({ accept: 'image/jpg,image/jpeg,image/png,video/mp4', muliple: true });
+        const files = await chooseFileFromStorage({ accept: 'image/jpg,image/jpeg,image/png', muliple: true });
         setChooseFiles(files);
     }
 

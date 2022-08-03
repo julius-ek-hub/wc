@@ -40,11 +40,11 @@ function VideoCall() {
                     '& .caller-info, & .action-btns': {
                         transition: '300ms all',
                         '&:is(.caller-info)': {
-                            transform: `scale(${(remoteTracks.length > 0 || localTracks.length > 0) ? '0' : '1'})`,
+                            transform: `scale(${((remoteTracks.length > 0 || localTracks.length > 0) && state.accepted) ? '0' : '1'})`,
                             top: 0
                         },
                         '&:is(.action-btns)': {
-                            bottom: call.type === 'video' ? -400 : 0
+                            bottom: (call.type === 'video' && state.accepted) ? -400 : 0
                         }
                     },
                     '&:hover': {
