@@ -34,9 +34,21 @@ function useFiles() {
 		});
 	};
 
+	/**
+	 * @returns {Promise<[File]>}
+	 */
+
+	const chooseImageFromStorage = () => {
+		return chooseFileFromStorage({
+			accept: "image/jpg,image/jpeg,image/png",
+			muliple: true,
+		});
+	};
+
 	return {
 		upload,
 		chooseFileFromStorage,
+		chooseImageFromStorage,
 	};
 }
 

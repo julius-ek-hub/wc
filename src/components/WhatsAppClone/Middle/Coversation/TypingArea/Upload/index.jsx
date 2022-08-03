@@ -24,7 +24,7 @@ import useFiles from '../../../../../../hooks/useFiles';
 
 export default function Upload() {
     const [open, setOpen] = useState(false);
-    const { chooseFileFromStorage } = useFiles();
+    const { chooseFileFromStorage, chooseImageFromStorage } = useFiles();
     const [choosenFiles, setChooseFiles] = useState([]);
 
     const toggleVisibility = () => {
@@ -37,7 +37,7 @@ export default function Upload() {
     }
 
     const choosePictureOrVideo = async () => {
-        const files = await chooseFileFromStorage({ accept: 'image/jpg,image/jpeg,image/png', muliple: true });
+        const files = await chooseImageFromStorage();
         setChooseFiles(files);
     }
 

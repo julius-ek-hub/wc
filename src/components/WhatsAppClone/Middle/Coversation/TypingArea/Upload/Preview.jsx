@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Backdrop from "@mui/material/Backdrop";
@@ -21,12 +21,14 @@ import useDimension from "../../../../../../hooks/useDimension";
 import useTypingArea from "../../../../../../hooks/useTypingArea";
 
 import { blobURL, sleep } from "../../../../../../utils";
+import useFiles from "../../../../../../hooks/useFiles";
 
 function Preview({ files = [], onDone }) {
     const [active, setActive] = useState(0);
     const [allFiles, setAllFiles] = useState(files);
     const { mainLeftWidth } = useDimension();
     const { emoji, ...ta } = useTypingArea();
+    const { chooseImageFromStorage } = useFiles();
 
     const ImagePreviewBox = ({ active = true, ...rest }) => (
         <Center sx={{
@@ -48,6 +50,11 @@ function Preview({ files = [], onDone }) {
         setAllFiles(_files);
     }
 
+    const addMoreFiles = async () => {
+        const newFiles = await chooseImageFromStorage();
+        setAllFiles([...allFiles, ...newFiles]);
+    }
+
     const send = () => {
         const _files = [...allFiles]
         const _send = async (index) => {
@@ -65,6 +72,23 @@ function Preview({ files = [], onDone }) {
         _send(0);
         onDone();
     }
+
+    const memoIzedFiles = useMemo(() => {
+        return allFiles.map((f, index) => (
+            <ImagePreviewBox
+                key={index}
+                onClick={() => setActive(index)}
+                active={active === index} >
+                <Box
+                    component="img"
+                    src={blobURL(new Blob([f], { type: f.type }))}
+                    height="100%"
+                    width="100%"
+                    sx={{ objectFit: 'cover' }}
+                />
+            </ImagePreviewBox>
+        ))
+    }, [allFiles, active]);
 
     return (
         <Backdrop unmountOnExit open={files.length > 0} sx={{
@@ -120,22 +144,9 @@ function Preview({ files = [], onDone }) {
                         maxWidth="60%"
                         flexWrap="nowrap"
                         overflow="auto">
-                        {allFiles.map((f, index) => (
-                            <ImagePreviewBox
-                                key={index}
-                                onClick={() => setActive(index)}
-                                active={active === index} >
-                                <Box
-                                    component="img"
-                                    src={blobURL(new Blob([f], { type: f.type }))}
-                                    height="100%"
-                                    width="100%"
-                                    sx={{ objectFit: 'cover' }}
-                                />
-                            </ImagePreviewBox>
-                        ))}
+                        {memoIzedFiles}
                     </Center>
-                    <ImagePreviewBox>
+                    <ImagePreviewBox onClick={addMoreFiles}>
                         <PlusIcon color="primary" />
                     </ImagePreviewBox>
                 </Center>
