@@ -24,7 +24,7 @@ function useCalls() {
 
 	const { call, _id, updateSettings } = useSettings();
 	const { chatInfoFromUserId } = useChats();
-	const callDurationRef = useRef();
+	const callDurationTimer = useRef();
 	const callDuration = useRef(0);
 
 	const update = (_update) => {
@@ -34,13 +34,13 @@ function useCalls() {
 		});
 	};
 
-	const stopTimer = () => clearInterval(callDurationRef.current);
+	const stopTimer = () => clearInterval(callDurationTimer.current);
 
 	const startTimer = () => {
 		stopTimer();
-		callDurationRef.current = setInterval(() => {
-			callDuration++;
-			setStatus(recordTime(callDuration));
+		callDurationTimer.current = setInterval(() => {
+			callDuration.current++;
+			setStatus(recordTime(callDuration.current));
 		}, 1000);
 	};
 
@@ -64,7 +64,7 @@ function useCalls() {
 		setState({});
 		setTo({});
 		stopTimer();
-		callDurationRef.current = 0;
+		callDurationTimer.current = 0;
 		setStatus("");
 		conn.removeListeners([`declined-${call.from._id}`]);
 	};
@@ -75,8 +75,10 @@ function useCalls() {
 		call.type === "video"
 			? localTracks[1].play(`user-${myUID}`)
 			: localTracks.play(`user-${myUID}`);
-		remoteTracks[0]?._videoTrack?.play(`user-${remoteTracks[0].uid}`);
-		startTimer();
+		if (remoteTracks.length > 0) {
+			startTimer();
+			remoteTracks[0]._videoTrack?.play(`user-${remoteTracks[0].uid}`);
+		}
 		onRemoteLeave(endCall);
 	};
 
