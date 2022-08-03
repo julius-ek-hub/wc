@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 
 import useMessages from "./useMessages";
-import useChats from "./useChats";
 import useSettings from "./useSettings";
 
 import { insertEmoji } from "../utils";
@@ -15,10 +14,9 @@ function useTypingArea() {
 	});
 
 	const { replyingTo, setReplyIngTo, sendMessage } = useMessages();
-	const { realActive } = useChats();
 
 	const textAreaREf = useRef();
-	const { _id, userName, dp, telephone } = useSettings();
+	const { _id } = useSettings();
 
 	const handleEmojiPicked = (value) => {
 		const ta = textAreaREf.current;
@@ -45,37 +43,54 @@ function useTypingArea() {
 		setText(e.target.value.trim());
 	};
 
-	const doSendMessage = () => {
-		const ta = textAreaREf.current;
+	const toSend = () => ({
+		_id: Date.now(),
+		_new: true,
+		senderId: _id,
+		starredBy: [],
+		reactions: [],
+		deleted: [],
+		receipt: {
+			sent: new Date().toISOString(),
+			seen: [],
+			received: [],
+		},
+		...(replyingTo && { replyingTo }),
+	});
 
+	const sendFile = (file) => {
 		sendMessage({
-			_id: Date.now(),
+			...toSend(),
+			file,
+		});
+		setReplyIngTo(null);
+	};
+
+	const doSendMessage = (file) => {
+		const ta = textAreaREf.current;
+		sendMessage({
+			...toSend(),
 			message: text,
-			sender: { _id, userName, dp, telephone },
-			receipt: {
-				sent: new Date().toISOString(),
-			},
-			replyingTo,
+			...(file && { file }),
 		});
 
 		setText("");
-		ta.value = "";
-		ta.focus();
+		if (ta) {
+			ta.value = "";
+			ta?.focus();
+		}
 		closeEmojiPicker();
-		const container = document.querySelector(`#all_messages_for_${realActive}`);
-		container.scrollTo({
-			top: container.scrollHeight + container.clientHeight,
-			behavior: "smooth",
-		});
 		setReplyIngTo(null);
 	};
 
 	return {
 		handleTextChange,
 		sendMessage: doSendMessage,
+		sendFile,
 		closeEmojiPicker,
 		openEmojiPicker,
 		handleEmojiPicked,
+		setText,
 		textAreaREf,
 		text,
 		emoji,

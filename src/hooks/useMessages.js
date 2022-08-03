@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
 	selectMessages,
 	updateOthers,
+	replaceMessage as _replaceMessage,
 	addMessage as _addMessage,
 } from "../features/reduces/messages";
 
@@ -10,11 +11,11 @@ import useConnection from "./useConnection";
 import useSettings from "./useSettings";
 
 const useMessages = () => {
-	const { messages, fetching, replyingTo } = useSelector(selectMessages);
-	const { active, tempActive, realActive, updateStore, addChats, chatInfo } =
-		useChats();
-	const { updateSettings, _id } = useSettings();
+	const { messages, fetching, replyingTo, selected, messagesLoaded } =
+		useSelector(selectMessages);
+	const { active, chatInfo } = useChats();
 	const dispatch = useDispatch();
+	const { _id } = useSettings();
 
 	const conn = useConnection();
 
@@ -22,87 +23,104 @@ const useMessages = () => {
 	 * @type {Array}
 	 */
 
-	const messagesForThisChat = messages[realActive];
+	const _messagesForThisChat = messages[active] || [];
+	const selectedForThisChat = selected[active] || [];
+	const notDeleted = (m) =>
+		!m.deleted.find((d) => d.types.includes(1) && d._id === _id);
 
-	const addMessage = (details) => {
-		dispatch(_addMessage(details));
+	const messagesForThisChat = _messagesForThisChat.filter(notDeleted);
+
+	const addMessage = (message) => {
+		dispatch(_addMessage(message));
+	};
+	const setReplyIngTo = (message) => {
+		_updateOthers("replyingTo", {
+			...replyingTo,
+			[active]: message,
+		});
 	};
 
 	const _updateOthers = (key, value) => dispatch(updateOthers({ key, value }));
 
-	const setReplyIngTo = (message) => {
-		_updateOthers("replyingTo", {
-			...replyingTo,
-			[realActive]: message,
+	const lastMessage = (chatId = active) => {
+		let _messages = messages[chatId]?.filter(notDeleted);
+		return _messages
+			? _messages[_messages.length - 1]
+			: chatInfo(chatId).lastMessage;
+	};
+
+	const replaceMessage = (_id, newMessage) => {
+		dispatch(_replaceMessage({ _id, newMessage }));
+	};
+
+	const select = (messageId, chatId = active) => {
+		let _selected = [...(selected[chatId] || [])];
+		if (_selected.includes(messageId))
+			_selected = _selected.filter((_id) => _id !== messageId);
+		else _selected.push(messageId);
+
+		_updateOthers("selected", {
+			...selected,
+			[chatId]: _selected,
+		});
+		setReplyIngTo(null);
+	};
+	const resetSelect = (chatId = active) => {
+		_updateOthers("selected", {
+			...selected,
+			[chatId]: [],
 		});
 	};
 
-	const getAllMessage = async () => {
-		if (messagesForThisChat) return;
+	const getAllMessage = async (_chatId) => {
+		const chatId = _chatId || active;
 
-		if (tempActive)
-			return _updateOthers("messages", {
-				...messages,
-				[tempActive]: [],
-			});
+		if (messagesLoaded[chatId]) return;
 
 		_updateOthers("fetching", {
 			...fetching,
-			[active]: true,
+			[chatId]: true,
 		});
 
-		const { data } = await conn.emit("messages", {
-			chatId: active,
-		});
+		const { data } = await conn.emit("messages", { chatId });
 
 		_updateOthers("messages", {
 			...messages,
-			[active]: data,
+			[chatId]: data,
 		});
 
 		_updateOthers("fetching", {
 			...fetching,
-			[active]: false,
+			[chatId]: false,
+		});
+
+		_updateOthers("messagesLoaded", {
+			...messagesLoaded,
+			[chatId]: true,
 		});
 	};
 
-	const sendMessage = async (message) => {
-		addMessage({ message, chatId: realActive });
-		if (tempActive) {
-			const { data } = await conn.emit("new-chat", {
-				_id: tempActive,
-				message,
-			});
-			addChats(data);
-			updateStore("tempActive", null);
-			updateStore("active", tempActive);
-			updateSettings("open", null);
-		}
+	const sendMessage = async (message, _chatId) => {
+		const chatId = _chatId || active;
 
-		const partnerId = chatInfo(realActive).partnerInfo._id;
-
-		conn.emit("new-message", {
-			message,
-			chatId: realActive,
-			partnerId,
-		});
-	};
-
-	const listenForNewMessages = async () => {
-		conn.on("receive-message-" + _id, addMessage);
-		updateSettings("listening_newMessage", true);
+		addMessage({ ...message, chatId });
 	};
 
 	return {
 		addMessage,
 		sendMessage,
 		setReplyIngTo,
+		select,
+		resetSelect,
+		lastMessage,
+		selected: selectedForThisChat,
+		selecting: selectedForThisChat.length > 0,
 		messages: messagesForThisChat || [],
-		fetching: fetching[realActive],
-		replyingTo: replyingTo[realActive],
-		realActive,
-		listenForNewMessages,
+		allMessages: messages,
+		fetching: fetching[active],
+		replyingTo: replyingTo[active],
 		getAllMessage,
+		replaceMessage,
 	};
 };
 

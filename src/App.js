@@ -1,7 +1,7 @@
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
-import WhatsAppDesktop from "./components/desktop";
-import FullScreenLoading from "./components/common/LoadingIndicators/FullScreenLoading";
+import WhatsAppClone from "./components/WhatsAppClone";
+import FullScreenLoading from "./components/LoadingIndicators/FullScreenLoading";
 
 import themeInMode from "./config/theme";
 
@@ -13,7 +13,7 @@ function App() {
 	return (
 		<ThemeProvider theme={themeInMode(settings?.theme)}>
 			<FullScreenLoading loading={loading} />
-			<WhatsAppDesktop />
+			<WhatsAppClone />
 		</ThemeProvider>
 	);
 }

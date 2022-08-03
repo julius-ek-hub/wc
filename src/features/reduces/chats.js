@@ -19,10 +19,14 @@ const contactSlice = createSlice({
 		updateOthers(state, { payload: { key, value } }) {
 			state[key] = value;
 		},
+		updateChat(state, { payload: { key, value, chatId } }) {
+			const chat = state.chats[chatId];
+			chat[key] = value;
+		},
 	},
 });
 
-export const { addChats, updateOthers } = contactSlice.actions;
+export const { addChats, updateOthers, updateChat } = contactSlice.actions;
 
 export const selectChats = ({ chats }) => chats;
 

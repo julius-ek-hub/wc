@@ -10,8 +10,9 @@ function useLocalStorage() {
 			null,
 		)();
 	};
+	const remove = (key) => localStorage.removeItem(key);
 
-	return { get, set };
+	return { get, set, remove };
 }
 
 export default useLocalStorage;

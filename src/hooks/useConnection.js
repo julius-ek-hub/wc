@@ -44,10 +44,16 @@ const useConnection = () => {
 		conn.on(event, callback);
 	};
 
+	const removeListeners = async (events = []) => {
+		const conn = await use("/live");
+		await Promise.all(events.map((ev) => conn.removeAllListeners(ev)));
+	};
+
 	return {
 		emit,
 		on,
 		use,
+		removeListeners,
 	};
 };
 

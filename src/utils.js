@@ -42,4 +42,60 @@ export const insertEmoji = (value, textField) => {
 	textField.value = finalValue;
 };
 
-export const getEnv = (key) => process.env[key + "_" + process.env.NODE_ENV];
+export const sf = (value, _sf) => {
+	let count = _sf - String(value).length;
+	count = count > 0 ? count : 0;
+	return "0".repeat(count) + value;
+};
+
+export const date = (d) => {
+	const now = new Date();
+	const then = new Date(d || now);
+	const yearNow = now.getFullYear();
+	const yearThen = then.getFullYear();
+	const monthNow = now.getMonth();
+	const monthThen = then.getMonth();
+	const dayNow = now.getDate();
+	const dayThen = then.getDate();
+
+	const defaultDate = then.toDateString();
+	const forMessageThen = then.toLocaleTimeString();
+	const forMessageNow = now.toLocaleTimeString();
+
+	const dSplit = defaultDate.split(" ");
+	let sticky = defaultDate;
+	let today = false;
+
+	let messageN =
+		forMessageNow.split(":").slice(0, 2).join(":") +
+		" " +
+		forMessageNow.split(" ")[1];
+	let messageT =
+		forMessageThen.split(":").slice(0, 2).join(":") +
+		" " +
+		forMessageNow.split(" ")[1];
+	if (yearNow === yearThen) {
+		sticky = dSplit[1] + " " + dSplit[2];
+		if (monthNow === monthThen && dayNow - dayThen === 1) sticky = "Yesterday";
+	}
+	if (now.toLocaleDateString() === then.toLocaleDateString()) {
+		sticky = "Today";
+		today = true;
+	}
+
+	return {
+		message: messageT,
+		sticky,
+		chat: messageN === messageT ? "now" : today ? messageT : messageT,
+	};
+};
+
+export const recordTime = (totalSeconds) => {
+	const wholeMins = Math.floor(totalSeconds / 60);
+	const wholeSec = Math.floor(totalSeconds % 60);
+
+	return `${sf(wholeMins, 2)}:${sf(wholeSec, 2)}`;
+};
+
+export const blobURL = (blob) =>
+	(window.URL || window.webkitURL).createObjectURL(blob);

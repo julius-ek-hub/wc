@@ -2,11 +2,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOthers, selectChats, addChats } from "../features/reduces/chats";
 
 import useConnection from "./useConnection";
+import useLiveUpdate from "./useLiveUpdates";
 import useSettings from "./useSettings";
 
 const useChats = () => {
 	const {
-		chats,
 		active,
 		tempActive,
 		listingForNewChat,
@@ -17,34 +17,50 @@ const useChats = () => {
 	const connection = useConnection();
 	const dispatch = useDispatch();
 
-	const { _id } = useSettings();
+	const { _id, chats, updateSettings, store, resetSettings } = useSettings();
 
-	const realActive = active || tempActive;
+	const chatInfo = (id = active) => chats.find((chat) => chat.id === id);
+	const chatInfoFromUserId = (p_id) =>
+		chats.find((chat) => chat.partnerInfo._id === p_id);
 
-	const chatInfo = (id) => chats.find((chat) => chat.id === id);
-
-	const activeChat = () => {
-		if (active) return chats.find((chat) => chat.id === active);
-		else if (tempActive)
-			return publicContacts.find(
-				(contact) => contact._id === tempActive.split("_and_")[1],
-			);
-		return {};
-	};
+	const activeChat = () => chats.find((chat) => chat.id === active);
 
 	const updateChats = (key, value) => dispatch(updateOthers({ key, value }));
-
-	const setUserInfoOpen = (open) =>
-		updateChats("openedUserInfo", open ? realActive : null);
 
 	const setActiveChat = (_id) => {
 		setUserInfoOpen(false);
 		dispatch(updateOthers({ key: "active", value: _id }));
 	};
 
+	const addTempChat = (partnerInfo) => {
+		const _chats = chats.filter((chat) => !chat.temp);
+
+		const id = _id + "_and_" + partnerInfo._id;
+		const chat = {
+			id,
+			temp: true,
+			partnerInfo,
+		};
+
+		resetSettings({
+			...store,
+			chats: [..._chats, chat],
+			open: null,
+		});
+		setActiveChat(id);
+	};
+
+	const setUserInfoOpen = (open) => updateChats("userInfoOpened", open);
+
 	const fetchPublicContacts = async () => {
 		const { data } = await connection.emit("public-contacts");
 		updateChats("publicContacts", data);
+		return data;
+	};
+
+	const getChats = async () => {
+		const { data } = await connection.emit("chats");
+		updateSettings("chats", data);
 	};
 
 	const listenForNewChats = async () => {
@@ -66,15 +82,17 @@ const useChats = () => {
 		chatInfo,
 		activeChat,
 		setActiveChat,
-		realActive,
+		addTempChat,
 		tempActive,
 		publicContacts,
-		userInfoOpened: openedUserInfo && openedUserInfo === realActive,
+		userInfoOpened: openedUserInfo && openedUserInfo === active,
 		setUserInfoOpen,
 		updateChats,
 		fetchPublicContacts,
+		chatInfoFromUserId,
 		addChats: (chat) => dispatch(addChats(chat)),
 		listenForNewChats,
+		getChats,
 		...rest,
 	};
 };
