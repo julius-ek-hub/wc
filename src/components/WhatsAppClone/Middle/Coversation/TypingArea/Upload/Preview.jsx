@@ -92,7 +92,7 @@ function Preview({ files = [], onDone }) {
 
     return (
         <Backdrop unmountOnExit open={files.length > 0} sx={{
-            zIndex: 10,
+            zIndex: 100,
             flexDirection: 'column',
             bgcolor: 'primaryHeaderBg',
             left: mainLeftWidth,

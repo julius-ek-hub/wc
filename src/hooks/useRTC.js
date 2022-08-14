@@ -1,5 +1,6 @@
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { useRef, useState } from "react";
+
 import useSettings from "./useSettings";
 
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -35,7 +36,7 @@ function useRTC() {
 
 		client.on("user-published", handleJoin);
 		client.on("user-left", handleLeave);
-		client.on("user-unpublished", () => console.log("cam ch"));
+		// client.on("user-unpublished", () => console.log("cam ch"));
 		let myuid = await client.join(RTC_APPID, cname, token, uid);
 		const request =
 			type === "audio"
@@ -48,7 +49,6 @@ function useRTC() {
 	};
 
 	const stopLocalStream = async () => {
-		console.log(0);
 		try {
 			client.localTracks.forEach((track) => track.close());
 			await client.leave();

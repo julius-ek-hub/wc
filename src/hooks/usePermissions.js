@@ -1,7 +1,7 @@
 import useLocalStorage from "./useLocalStorage";
 import useSettings from "./useSettings";
 
-function useMedia() {
+function usePermissions() {
 	const { set, get } = useLocalStorage();
 	const { updateSettings } = useSettings();
 
@@ -41,8 +41,6 @@ function useMedia() {
 		});
 	};
 
-	const permisions = () => {};
-
 	return {
 		requestCameraAndMicophonePermission,
 		requestCameraPermission,
@@ -51,4 +49,4 @@ function useMedia() {
 	};
 }
 
-export default useMedia;
+export default usePermissions;

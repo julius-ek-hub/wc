@@ -9,13 +9,12 @@ import chats from "./features/reduces/chats";
 import settings from "./features/reduces/settings";
 import messages from "./features/reduces/messages";
 import extras from "./features/reduces/extras";
-import permissions from "./features/reduces/permissions";
 
 import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 const store = configureStore({
-	reducer: { chats, settings, messages, extras, permissions },
+	reducer: { chats, settings, messages, extras },
 });
 
 const container = document.getElementById("root");

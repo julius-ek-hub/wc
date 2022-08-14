@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOthers, selectChats, addChats } from "../features/reduces/chats";
 
 import useConnection from "./useConnection";
-import useLiveUpdate from "./useLiveUpdates";
 import useSettings from "./useSettings";
 
 const useChats = () => {
